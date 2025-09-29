@@ -21,9 +21,6 @@
 
         <div class="flex justify-between items-center mb-8">
             <h1 class="text-4xl font-bold">Gerenciar Minha Lista</h1>
-            <button class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">
-                Adicionar Novo Jogo
-            </button>
         </div>
 
         <div v-if="isLoading" class="text-center text-gray-400">Carregando sua lista...</div>
@@ -148,7 +145,21 @@ export default {
                 }
             }
         },
-        async handleDeleteGame(gameId) { /* ... seu método existente ... */ }
+        async handleDeleteGame(gameId) {
+            if (confirm('Tem certeza que quer remover este jogo da sua lista?')){
+                try{
+                    await favoriteGamesService.deleteFavorite(gameId)
+                    
+                    this.myFavoriteGames = this.myFavoriteGames.filter(fav => fav.game.id !== gameId)
+
+                    alert("Jogo removido com sucesso!")
+
+                } catch (error) {
+                    console.error("Erro ao remover jogo: ", error)
+                    alert("Não foi possível remover o jogo. Tente novamente.")
+                }
+            }
+        }
     }
 }
 </script>

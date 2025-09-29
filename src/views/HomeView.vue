@@ -34,7 +34,7 @@
     shadow-[0_0_5px_0_rgba(1,130,246,0.8),0_0_15px_5px_rgba(1,3046,0.6)] items-start gap-8 bg-0 p-10 rounded-lg max-w-6xl mx-auto">
 
                             <div class="md:w-3/6">
-                                <img :src="randomGame.imageUrl" alt="Capa do Jogo"
+                                <img :src="randomGame.background_image" alt="Capa do Jogo"
                                     class="w-full mt-8 h-auto object-cover rounded-lg">
                             </div>
 
@@ -168,6 +168,9 @@ export default {
             this.isLoadingRandom = true;
             try {
                 const response = await rawgService.getRandomGame();
+
+                console.log("DADOS RECEBIDOS: ", response.data)
+
                 this.randomGame = response.data;
             } catch (error) {
                 console.error("Erro ao buscar jogo aleatório:", error);

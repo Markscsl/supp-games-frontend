@@ -29,6 +29,9 @@ function getUserFromToken() {
                 email: decodedToken.email,
                 name: decodedToken.name
             };
+
+
+            
         } catch (error) {
             localStorage.removeItem('authToken');
             return null;
@@ -79,7 +82,7 @@ export const favoriteGamesService = {
         return apiClient.post('/FavoriteGames', { slug: slug });
     },
     deleteFavorite(gameId) {
-        return apiClient.delete(`/FavoriteGames/${gameId}`);
+        return apiClient.delete('/FavoriteGames/', { gameId });
     }
 };
 
