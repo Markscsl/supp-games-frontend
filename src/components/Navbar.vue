@@ -1,7 +1,6 @@
 <template>
 
-<nav class="bg-transparent border-b-0 border-b-[#5993CD] text-white bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-0 border-blue-400
-    shadow-[0_0_5px_0_rgba(59,130,246,0.8),0_0_15px_5px_rgba(59,130,246,0.6)]">
+<nav class="text-white">
     <div :class="{'flex justify-between items-center':!isAuthPage, 'flex justify-center': isAuthPage}" class="mx-auto px-8 h-[80px] py-3 r">
       
       <RouterLink  to="/" class="flex items-center">
@@ -13,8 +12,9 @@
         <div v-if="isLoggedIn" class="flex items-center space-x-6">
             <RouterLink to="/" class="hover:text-green-400">Home</RouterLink>
             <RouterLink to="/my-list" class="hover:text-green-400">Minha Lista</RouterLink>
+            <RouterLink to="/profile" class="hover:text-blue-400">Perfil</RouterLink>
             <span class="text-gray-500">|</span>
-            <span v-if="user">Olá, {{ user.name }}!</span>
+            <span v-if="user">Olá, {{user.name}}!</span>
             <button @click="logout" class="bg-red-500 hover:bg-red-600 px-4 py-2 rounded-md text-sm font-medium">Sair</button>
         </div>
 
@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import { authStore } from '@/services/apiService';
+import { authStore } from '@/services/authStore';
 import { RouterLink } from 'vue-router';
 
 export default{

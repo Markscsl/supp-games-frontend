@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import { authStore } from '@/services/apiService';
+import { authStore } from '@/services/authStore';
 import { authService } from '@/services/apiService';
 import BaseButton from '@/components/BaseButton.vue'
 import BaseInput from '@/components/BaseInput.vue';
@@ -63,7 +63,7 @@ export default{
 
                 alert("Login realizado com sucesso! Você será redirecionado...")
 
-                location.href= '/'
+                window.location.href= '/'
 
             } catch (error) {
 

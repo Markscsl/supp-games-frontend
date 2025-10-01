@@ -1,8 +1,7 @@
 <template>
     <div>
         <section v-if="!authStore.isLoggedIn"
-            class="bg-transparent border-b-0 border-b-[#5993CD] bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-0
-    shadow-[0_0_5px_0_rgba(59,130,246,0.8),0_0_15px_5px_rgba(59,130,246,0.6)] relative h-[70vh] flex items-center justify-center text-white overflow-hidden animate-fade-in">
+            class="relative h-[70vh] mt-30 flex bg- items-center justify-center text-white overflow-hidden animate-fade-in">
 
             <div
                 class="absolute top-1/2 left-1/2 w-[160vw] h-[90vw] min-w-full min-h-full -translate-x-1/2 -translate-y-1/2">
@@ -21,11 +20,15 @@
 
         <div class="container py-30 mx-auto p-8 text-white">
             <div v-if="authStore.isLoggedIn">
+
+                
+
                 <section>
                     <div v-if="isLoading" class="text-center text-2xl font-light text-gray-400 mt-20">
                         Buscando o jogo do dia...
                     </div>
 
+                    
                     <div v-else-if="randomGame" class="text-center animate-fade-in">
                         <h1 class="text-4xl pb-10 font-bold mb-4">Jogo em Destaque do Dia</h1>
 
@@ -52,25 +55,25 @@
                     </div>
                 </section>
 
-                <div class="m-20 py-16  flex flex-col rounded-lg items-center bg-transparent border-b-0 text-5xl font-bold text-white border-green-400 bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-0
+                <div class="m-20 flex flex-col rounded-lg items-center bg-transparent border-b-0 text-5xl font-bold text-white border-green-400 bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-0
     shadow-[0_0_5px_0_rgba(1,130,246,0.8),0_0_15px_5px_rgba(1,3046,0.6)]">
                     <h1 class="my-20">Minha Lista de Jogos Favoritos</h1>
 
                     <div v-if="isLoading">Carregando sua lista...</div>
 
                     <div v-else-if="myFavoriteGames.length > 0"
-                        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3  pb-20 gap-8">
-                        <div clas v-for="game in myFavoriteGames" :key="game.id"
+                        class="grid grid-cols-1 mx-8 md:grid-cols-2 lg:grid-cols-3  pb-20 gap-8">
+                        <div clas v-for="fav in myFavoriteGames" :key="fav.id"
                             class="bg-gray-800 rounded-lg overflow-hidden shadow-lg">
-                            <img :src="game.imageUrl" :alt="game.name" class="w-full h-48 object-cover">
+                            <img :src="fav.game.imageUrl" :alt="fav.game.name" class="w-full h-48 object-cover">
                             <div class="p-4">
-                                <h3 class="text-xl font-bold text-green-400">{{ game.name }}</h3>
+                                <h3 class="text-xl font-bold text-green-400">{{ fav.game.name }}</h3>
                             </div>
                         </div>
                     </div>
 
                     <div v-else
-                        class="text-center text-gray-400 border-2 border-dashed border-gray-600 rounded-lg p-16">
+                        class="text-center mb-20 text-gray-400 border-2 border-dashed border-gray-600 rounded-lg p-16">
                         <p class="text-2xl">Nenhum jogo adicionado</p>
                         <p class="mt-2">Que tal adicionar alguns jogos à sua lista?</p>
                     </div>
@@ -121,7 +124,7 @@
 
 <script>
 import { userService } from '@/services/apiService.js';
-import { authStore } from '@/services/apiService.js';
+import { authStore } from '@/services/authStore';
 import { rawgService } from '@/services/apiService.js';
 import { favoriteGamesService } from '@/services/apiService.js';
 import Typewriter from 'typewriter-effect/dist/core';
@@ -133,10 +136,8 @@ export default {
             authStore: authStore,
             myFavoriteGames: [],
             randomGame: null,
-            isLoadingList: true, // Um loading para a lista
-            isLoadingRandom: true,
-            publicLists: [],
-            isLoadingPublicLists: true // Outro loading para o jogo do dia
+            isLoading: true, // Um loading para a lista
+            publicLists: []
         }
     },
     mounted() {
@@ -175,12 +176,12 @@ export default {
             } catch (error) {
                 console.error("Erro ao buscar jogo aleatório:", error);
             } finally {
-                this.isLoadingRandom = false;
+                this.isLoading = false;
             }
         },
 
         async fetchPublicLists() {
-            this.isLoadingPublicLists = true
+            this.isLoading = true
 
             try {
                 const response = await userService.getPublicLists(1, 5)
@@ -193,12 +194,12 @@ export default {
                 console.error("Erro ao buscar listas públicas:", error)
 
             } finally {
-                this.isLoadingPublicLists = false
+                this.isLoading = false
             }
         },
 
         async fetchMyList() {
-            this.isLoadingList = true;
+            this.isLoading = true;
             try {
                 const response = await favoriteGamesService.getMyList();
                 this.myFavoriteGames = response.data;
@@ -208,7 +209,7 @@ export default {
                     authStore.logout();
                 }
             } finally {
-                this.isLoadingList = false;
+                this.isLoading = false;
             }
         }
     }
