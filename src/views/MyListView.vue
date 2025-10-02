@@ -1,39 +1,39 @@
 <template>
-    <div class="container mx-auto p-8 text-white">
 
-
-        
-        <div class="mb-8">
-            <input type="text" v-model="searchQuery" placeholder="Buscar novo jogo para adicionar..."
-                class="w-full p-3 bg-gray-700 rounded text-white focus:outline-none focus:ring-2 focus:ring-green-500">
+    <div class="container mx-auto p-8 min-h-screen">
+        <div class="mb-8 max-w-2xl mx-auto">
+            <div class="relative">
+                <div
+                    class="absolute -inset-1 bg-gradient-to-r from-[#ff00ff] via-[#00ffff] to-[#ff00ff] rounded-lg blur opacity-50" />
+                <input type="text" v-model="searchQuery" placeholder="Buscar novo jogo para adicionar..."
+                    class="relative neon-input w-full text-lg">
+            </div>
         </div>
 
-        <div v-if="feedbackMessage"></div>
-
-        <div v-if="searchResults.length > 0" class="bg-gray-800 rounded-lg p-4 mt-4">
-            <h3 class="text-xl font-bold mb-4">Resultados da Busca:</h3>
+        <div v-if="searchResults.length > 0" class="vaporwave-card rounded-lg p-6 mb-8 max-w-2xl mx-auto">
+            <h3 class="text-xl font-bold mb-4 neon-text-cyan">RESULTADOS DA BUSCA:</h3>
             <ul class="space-y-3">
                 <li v-for="game in searchResults" :key="game.id"
-                    class="flex items-center justify-between p-2 rounded-md hover:bg-gray-700">
-                    <span>{{ game.name }}</span>
+                    class="flex items-center justify-between p-3 rounded-lg bg-[#0f0f2e]/50 hover:bg-[#2d1b4e] transition-all border border-[#2d1b4e]">
+                    <span class="text-white">{{ game.name }}</span>
                     <button @click="addGame(game.slug)"
-                        class="bg-green-500 hover:bg-green-600 text-white font-bold py-1 px-3 rounded text-lg">+</button>
+                        class="neon-button-pink w-10 h-10 flex items-center justify-center text-xl">+</button>
                 </li>
             </ul>
         </div>
 
-        <div class="flex justify-between items-center mb-8">
-            <h1 class="text-4xl font-bold">Gerenciar Minha Lista</h1>
+        <div class="text-center mb-12">
+            <h1 class="text-5xl md:text-6xl font-black text-white">GERENCIAR <span class="neon-text-pink">MINHA
+                    LISTA</span></h1>
         </div>
-
-        <div v-if="isLoading" class="text-center text-gray-400">Carregando sua lista...</div>
 
         <div v-if="isLoading && myFavoriteGames.length === 0" class="text-center text-gray-400">Carregando sua lista...
         </div>
 
         <div v-else-if="myFavoriteGames.length > 0"
             class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            <GameCard v-for="fav in myFavoriteGames" @edit-annotations="openAnnotationModal" :key="fav.id" :favorite="fav" @delete-game="handleDeleteGame" />
+            <GameCard v-for="fav in myFavoriteGames" @edit-annotations="openAnnotationModal" :key="fav.id"
+                :favorite="fav" @delete-game="handleDeleteGame" />
         </div>
 
         <div v-else class="text-center text-gray-400 border-2 border-dashed border-gray-600 rounded-lg p-16">
@@ -42,12 +42,14 @@
 
         <div v-if="canLoadMore && myFavoriteGames.length > 0 && !isLoading" class="text-center mt-8">
             <button @click="fetchMyList(true)"
-                class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-6 rounded">
+                class="px-6 py-2 neon-button-pink rounded-lg text-sm font-bold border-2 transition-all">
                 Carregar Mais
             </button>
         </div>
 
-        <EditAnnotationModal :show="isAnnotationModalVisible" :existing-annotations="editingFavoriteGame ? editingFavoriteGame.annotations : []" @close="closeAnnotationsModal" @save="handleSaveAnnotation"/>
+        <EditAnnotationModal :show="isAnnotationModalVisible"
+            :existing-annotations="editingFavoriteGame ? editingFavoriteGame.annotations : []"
+            @close="closeAnnotationsModal" @save="handleSaveAnnotation" />
     </div>
 </template>
 
@@ -57,13 +59,14 @@ import { annotationService } from '@/services/apiService.js';
 import { rawgService } from '@/services/apiService.js';
 import { favoriteGamesService } from '@/services/apiService.js';
 import GameCard from '@/components/GameCard.vue';
+import { notificationStore } from '@/services/notificationStore';
 
 export default {
     name: 'MyListView',
-    components: { 
+    components: {
         GameCard,
         EditAnnotationModal
-     },
+    },
     data() {
         return {
             myFavoriteGames: [],
@@ -131,32 +134,32 @@ export default {
             }
         },
 
-        openAnnotationModal(favoriteGame){
+        openAnnotationModal(favoriteGame) {
             this.editingFavoriteGame = favoriteGame
             this.isAnnotationModalVisible = true
         },
 
-        closeAnnotationsModal(){
+        closeAnnotationsModal() {
             this.isAnnotationModalVisible = false
             this.editingFavoriteGame = null
         },
 
-        async handleSaveAnnotation(newText){
-            if(!this.editingFavoriteGame) 
-            
-            return
+        async handleSaveAnnotation(newText) {
+            if (!this.editingFavoriteGame)
+
+                return
 
             try {
                 const existingAnnotations = this.editingFavoriteGame.annotations[0]
 
-                if(existingAnnotations){
+                if (existingAnnotations) {
 
-                    const updateDto = {id: existingAnnotations.id, text: newText}
+                    const updateDto = { id: existingAnnotations.id, text: newText }
                     await annotationService.update(existingAnnotations.id, updateDto)
 
                 } else {
 
-                    const createDto = {text: newText, favoriteGameId: this.editingFavoriteGame.id}
+                    const createDto = { text: newText, favoriteGameId: this.editingFavoriteGame.id }
                     await annotationService.create(createDto)
 
                 }
@@ -187,7 +190,11 @@ export default {
                 this.searchQuery = ''
                 this.searchResults = []
 
-                alert(`'${response.data.name}' foi adicionado à sua lista com sucesso!`)
+                notificationStore.show(`${response.data.name} adicionado com sucesso!`);
+
+                // alert(`'${response.data.name}' foi adicionado à sua lista com sucesso!`)
+
+
             } catch (error) {
                 console.error("Erro ao adicionar jogo:", error.rep)
 
@@ -201,10 +208,10 @@ export default {
         async handleDeleteGame(gameId) {
             if (confirm('Tem certeza que quer remover este jogo da sua lista?')) {
                 try {
-                    
-                    // await favoriteGamesService.deleteFavorite(gameId)
 
-                    this.myFavoriteGames = this.myFavoriteGames.filter(game => game.id !== gameId)
+                    await favoriteGamesService.deleteFavorite(gameId)
+
+                    this.myFavoriteGames = this.myFavoriteGames.filter(game => game.id !== gameId);
                     alert('Jogo removido!')
 
 

@@ -1,10 +1,12 @@
 <template>
   <div class="container mx-auto my-30 p-8 text-white">
+
     <h1 class="text-4xl text-center font-bold mb-8">Editar Perfil</h1>
 
     <div v-if="isLoading" class="text-center">Carregando perfil...</div>
 
-    <div v-else class="max-w-[480px] mx-auto flex justify-center bg-gray-800 p-12 rounded-lg shadow-lg">
+    <div v-else class="w-150 mx-auto flex justify-center bg-purple-0 rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-0 border retro-frame
+ p-8 shadow-lg">
       <form @submit.prevent="updateProfile">
         <BaseInput 
           label="Nome" 

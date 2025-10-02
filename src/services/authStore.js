@@ -6,10 +6,13 @@ function getUserFromToken() {
     if (token) {
         try {
             const decodedToken = jwtDecode(token);
+
+            console.log('CONTEÚDO DO TOKEN:', decodedToken)
+
             return {
                 id: decodedToken.nameid,
                 email: decodedToken.email,
-                name: decodedToken.name
+                name: decodedToken.unique_name
             };
 
 

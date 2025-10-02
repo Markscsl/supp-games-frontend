@@ -26,21 +26,19 @@ export default {
 
     computed: {
         buttonClasses() {
-            let baseClasses = 'w-[400px] cursor-pointer text-white h-12 py-2 mt-6 font-bold rounded-md transition-colors focus:outline-none focus:ring-opacity-50'
+            let baseClasses = 'w-full cursor-pointer h-12 py-3 px-6 mt-6 font-bold rounded-lg transition-all duration-300 focus:outline-none uppercase tracking-wider'
 
             if (this.disabled) {
-                return `${baseClasses} bg-gray-400 cursor-not-allowed`
+                return `${baseClasses} bg-gray-700 text-gray-500 cursor-not-allowed border-2 border-gray-600`
             }
 
             switch (this.variant) {
                 case "secondary":
-                    return `${baseClasses} bg-gray-600 hover:bg-gray-700 text-white focus:ring-gray-500`
-
+                    return `${baseClasses} neon-button-cyan hover:scale-105`
                 case 'danger':
-                    return `${baseClasses} bg-red-600 hover:bg-red-700 text-white focus:ring-red-500`
-
+                    return `${baseClasses} bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-600 text-white border-2 border-red-500/30 hover:scale-105`
                 default:
-                    return `${baseClasses} bg-[#5993CD] hover:bg-[#4877A6] text-white `
+                    return `${baseClasses} neon-button-pink hover:scale-105`
             }
         }
     }

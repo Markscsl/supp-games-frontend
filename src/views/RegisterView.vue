@@ -1,39 +1,42 @@
 <template>
+    <div class="min-h-screen flex items-center justify-center relative overflow-hidden py-12">
+        <div class="absolute inset-0 vaporwave-gradient" />
+        <div class="absolute inset-0 grid-bg opacity-30" />
+        <div class="absolute inset-0 scan-line" />
 
-    <div class="min-h-screen bg-[url(@/assets/img/bg-site.png)] flex items-center justify-center">
-        <div
-            class=" py-[40px] px-[140px] bg-white-600 rounded-md bg-clip-padding backdrop-filter backdrop-blur-xs border-solid border-0 border-[#5993CD] shadow-[0_0_5px_0_rgba(59,130,246,0.8),0_0_15px_5px_rgba(59,130,246,0.6)] bg-opacity-10 ">
-
-            <h2 class="text-3xl font-bold text-center text-white mb-8">Criar Conta</h2>
+        <div class=" relative z-10 retro-frame rounded-2xl p-12 w-full max-w-md mx-4">
+            <h2 class="text-4xl font-black text-center mb-8 chrome-text">CRIAR CONTA</h2>
 
             <form @submit.prevent="register">
-                <BaseInput label="Nome" type="text" v-model="form.name" placeholder="Digite seu nome de usuário" />
+                <BaseInput label="Nome" type="text" v-model="form.name" placeholder="Digite seu nome" />
+                <BaseInput label="Email" type="email" v-model="form.email" placeholder="Digite seu e-mail" />
+                <BaseInput label="Senha" type="password" v-model="form.password" placeholder="Digite sua senha" />
 
-                <BaseInput label="Email" type="email" v-model="form.email" placeholder="Digite o seu e-mail" />
+                <div v-if="errorMessage"
+                    class="bg-red-600/20 border border-red-500/50 text-red-300 p-4 rounded-lg text-center mb-4 backdrop-blur-sm">
+                    {{ errorMessage }}
+                </div>
 
-                <BaseInput label="Senha" type="password" v-model="form.password" placeholder="Digite a sua senha" />
-
-                <div v-if="errorMessage" class="bg-red-600 bg-opacity-20 text-red-300 p-3 rounded-md text-center mb-4">{{ errorMessage }}</div>
-                <div v-else-if="sucessMessage" class="bg-green-600 bg-opacity-20 text-green-300 p-3 rounded-md text-center mb-4">{{ sucessMessage }}</div>
 
                 <BaseButton :disabled="isLoading" type="submit" variant="primary">
-                    {{isLoading ? 'Cadastrando...' : 'Cadastrar'}}
+                    {{ isLoading ? 'PROCESSANDO...' : 'CADASTRAR' }}
                 </BaseButton>
-
             </form>
 
-            <RouterLink class="text-white font-bold" to="/login"><span>Ja tem uma conta?</span></RouterLink>
-
+            <div class="mt-6 text-center">
+                <RouterLink to="/login" class="text-[#00ffff] hover:text-[#ff00ff] font-bold transition-colors">
+                    Já tem conta? Faça login
+                </RouterLink>
+            </div>
         </div>
     </div>
-
 </template>
 
 <script>
 import { authService } from '@/services/apiService'
 import BaseInput from '@/components/BaseInput.vue'
 import BaseButton from '@/components/BaseButton.vue'
-
+import { notificationStore } from '@/services/notificationStore'
 
 export default {
     name: 'RegisterView',
@@ -50,30 +53,28 @@ export default {
             },
 
             isLoading: false,
-            errorMessage: null,
-            sucessMessage: null
+            errorMessage: null,        
         }
     },
     methods: {
         async register() {
-            
+
             this.errorMessage = null
-            this.sucessMessage = null
             this.isLoading = true
 
-            try{
+            try {
 
-                const response = await authService.register(this.form)
+                notificationStore.show("Cadastro realizado com sucesso!", 'success', 5000);
 
-                console.log("Usuário cadastrado: ", response.data)
-                this.sucessMessage = "Cadastro realizado com sucesso"
-
-                this.$router.push('/login')
-
-            } catch (error){
+                setTimeout(() => {
+                    this.$router.push('/login')
+                }, 2000);
                 
-                console.error("Erro no cadastro: ", error.response.data)
-                this.errorMessage = "Erro desconhecido. Tente novamente."
+
+            } catch (error) {
+                
+                notificationStore.show(this.errorMessage, 'error')
+
             } finally {
 
                 this.isLoading = false;

@@ -1,18 +1,18 @@
 <template>
-    <div class="mb-4">
-    
-    <label class="block text-white mb-2 font-semibold">{{label}}</label>
-
-    <input :placeholder="placeholder" class="text-white w-[400px] placeholder:text-white font-po rounded-md h-10 font-normal px-4 bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 border-solid  border-blue-400
-    shadow-[0_0_5px_0_rgba(59,130,246,0.8),0_0_15px_5px_rgba(59,130,246,0.6)]" :value="modelValue" @input="$emit('update:modelValue', $event.target.value)" :type="type">
-  </div>
+    <div class="mb-3">
+        <label class="block text-white mb-2 font-semibold uppercase text-sm tracking-wider neon-text-pink">
+            {{ label }}
+        </label>
+        <input :placeholder="placeholder" :value="modelValue" @input="$emit('update:modelValue', $event.target.value)"
+            :type="type" class="neon-input w-full">
+    </div>
 </template>
 
 <script>
-export default{
+export default {
     name: "BaseInput",
     props: {
-        label:{
+        label: {
             type: String,
             required: true
         },
@@ -26,8 +26,8 @@ export default{
             type: String,
             required: true
         },
-        
-        placeholder:{
+
+        placeholder: {
             type: String,
             required: false,
             default: ""

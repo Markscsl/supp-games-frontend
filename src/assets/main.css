@@ -1,1 +1,131 @@
 @import "tailwindcss";
+
+@layer base {
+  :root {
+    --bg-primary: #0a0a1f;
+    --bg-secondary: #1a0a2e;
+    --accent: #16213e;
+    --neon-pink: #ff00ff;
+    --neon-cyan: #00ffff;
+    --neon-green: #22c55e;
+  }
+}
+
+/* Adiciona as novas classes de componentes customizados */
+@layer components {
+  /* Estilos de texto Neon */
+  .neon-text-pink {
+    text-shadow: 0 0 5px var(--neon-pink), 0 0 10px var(--neon-pink), 0 0 20px var(--neon-pink);
+  }
+  .neon-text-cyan {
+    text-shadow: 0 0 5px var(--neon-cyan), 0 0 10px var(--neon-cyan), 0 0 20px var(--neon-cyan);
+  }
+
+  /* Botão Neon (Rosa) */
+  .neon-button-pink {
+    @apply font-bold rounded-lg text-white uppercase tracking-wider
+           bg-gradient-to-r from-[#ff00ff] to-[#ff00aa]
+           border-2 border-transparent
+           transition-all duration-300;
+    text-shadow: 0 0 2px #000, 0 0 5px var(--neon-pink);
+    box-shadow: 0 0 5px var(--neon-pink), inset 0 0 5px var(--neon-pink);
+  }
+  .neon-button-pink:hover {
+    box-shadow: 0 0 15px var(--neon-pink), inset 0 0 10px var(--neon-pink);
+    transform: scale(1.05);
+  }
+
+  /* Botão Neon (Ciano) */
+  .neon-button-cyan {
+    @apply font-bold rounded-lg text-black uppercase tracking-wider
+           bg-gradient-to-r from-[#00ffff] to-[#00cccc]
+           border-2 border-transparent
+           transition-all duration-300;
+    text-shadow: 0 0 2px #fff;
+    box-shadow: 0 0 5px var(--neon-cyan), inset 0 0 5px var(--neon-cyan);
+  }
+  .neon-button-cyan:hover {
+    box-shadow: 0 0 15px var(--neon-cyan), inset 0 0 10px var(--neon-cyan);
+    transform: scale(1.05);
+  }
+
+  /* Input Neon */
+  .neon-input {
+    @apply p-3 bg-[#1a0a2e]/60 rounded-lg text-white
+           border-2 border-[#2d1b4e]
+           focus:outline-none focus:border-[#ff00ff]
+           transition-all duration-300;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.4);
+  }
+  .neon-input:focus {
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.4), 0 0 10px var(--neon-pink);
+  }
+
+  /* Efeito de texto cromado */
+  .chrome-text {
+    background-image: linear-gradient(180deg, #d0d0d0, #ffffff 50%, #b0b0b0);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(2px 2px 3px rgba(0,0,0,0.5));
+  }
+
+  /* Efeito de Glitch */
+  .glitch { /* Efeito mais complexo, pode adicionar depois se quiser */ }
+
+  /* Gradiente de fundo */
+  .vaporwave-gradient {
+    background: linear-gradient(135deg, var(--bg-primary), var(--bg-secondary));
+  }
+
+  /* Grid animado de fundo */
+  .grid-bg { /* Efeito mais complexo, pode adicionar depois se quiser */ }
+  .scan-line { /* Efeito mais complexo, pode adicionar depois se quiser */ }
+
+  /* Borda estilo retro */
+  .retro-frame {
+    @apply bg-transparent backdrop-blur-md border-2 border-[#2d1b4e];
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.2), inset 0 0 10px rgba(255, 0, 255, 0.1);
+  }
+
+  /* Card com efeito de vidro */
+  .vaporwave-card {
+    @apply bg-[#16213e]/40 backdrop-blur-md border border-[#2d1b4e]/50;
+  }
+
+  /* Efeito de hover para cards */
+  .card-hover:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+  }
+
+  /* Indicadores de status */
+  .status-online {
+    @apply w-2 h-2 rounded-full bg-green-400;
+    box-shadow: 0 0 5px var(--neon-green);
+  }
+  .status-active {
+    @apply w-2 h-2 rounded-full bg-cyan-400;
+    box-shadow: 0 0 5px var(--neon-cyan);
+  }
+}
+
+@keyframes pan-grid {
+  0% { background-position: 0% 0%; }
+  100% { background-position: 100% 100%; }
+}
+
+/* Animação para a linha de scan */
+@keyframes scan {
+  0% { transform: translateY(-10%); }
+  100% { transform: translateY(110%); }
+}
+
+/* Aplica as animações às nossas classes */
+.grid-bg {
+  background-image:
+    linear-gradient(rgba(0, 255, 255, 0.2) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 255, 255, 0.2) 1px, transparent 1px);
+  background-size: 40px 40px;
+  animation: pan-grid 60s linear infinite;
+}
+

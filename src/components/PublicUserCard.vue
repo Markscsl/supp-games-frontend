@@ -1,21 +1,22 @@
 <template>
-    <div
-        class="bg-gray-800 rounded-lg p-4 h-full flex flex-col border border-gray-700 hover:border-green-500 transition-colors">
-        <h3 class="font-bold text-lg text-green-400 mb-4 border-b border-gray-700 pb-2 truncate">
-            Lista de {{ user.userName }}
-        </h3>
+  <div class="vaporwave-card rounded-lg p-6 h-full flex flex-col hover:border-[#00ffff] transition-all duration-300 card-hover">
+    <h3 class="font-bold text-xl mb-4 border-b border-[#2d1b4e] pb-3 truncate">
+      Lista de {{ user.userName }}
+    </h3>
 
-        <ul v-if="user.favoriteGames.length > 0" class="space-y-3 flex-grow">
-            <li v-for="game in user.favoriteGames" :key="game.id"
-                class="flex items-center bg-gray-900/50 p-2 rounded-md">
-                <img :src="game.imageUrl" :alt="game.name" class="w-10 h-10 object-cover rounded-md mr-3 flex-shrink-0">
-                <span class="text-sm text-gray-300 truncate">{{ game.name }}</span>
-            </li>
-        </ul>
-        <div v-else class="text-center text-gray-500 text-sm flex-grow flex items-center justify-center">
-            <p>Esta lista está vazia.</p>
-        </div>
+    <ul v-if="user.favoriteGames.length > 0" class="space-y-3 flex-grow">
+      <li v-for="game in user.favoriteGames" :key="game.id"
+          class="flex items-center bg-[#0f0f2e]/50 p-3 rounded-md border border-[#2d1b4e] hover:border-[#ff00ff]/40 transition-all">
+        <img :src="game.imageUrl" :alt="game.name"
+             class="w-12 h-12 object-cover rounded-md mr-3 flex-shrink-0 border-2 border-[#ff00ff]/20">
+        <span class="text-sm text-gray-300 truncate">{{ game.name }}</span>
+      </li>
+    </ul>
+
+    <div v-else class="text-center text-white text-semibold flex-grow flex items-center justify-center">
+      <p class="neon-text-pink opacity-50">Esta lista está vazia.</p>
     </div>
+  </div>
 </template>
 
 

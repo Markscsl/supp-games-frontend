@@ -1,22 +1,30 @@
 <template>
-    <div class="min-h-screen bg-[url(@/assets/img/bg-site.png)] flex items-center justify-center">
-        <div class="py-[40px] px-[140px] bg-white-600 rounded-md bg-clip-padding backdrop-filter backdrop-blur-xs border-solid border-0 border-[#5993CD] shadow-[0_0_5px_0_rgba(59,130,246,0.8),0_0_15px_5px_rgba(59,130,246,0.6)] bg-opacity-10 ">
+    <div class="min-h-screen flex items-center justify-center relative overflow-hidden py-12">
+        <div class="absolute inset-0 vaporwave-gradient" />
+        <div class="absolute inset-0 grid-bg opacity-30" />
+        <div class="absolute inset-0 scan-line" />
 
-            <h2 class="text-3xl font-bold text-center text-white mb-8">Fazer login</h2>
+        <div class="relative z-10 retro-frame rounded-2xl p-12 w-full max-w-md mx-4">
+            <h2 class="text-4xl font-black text-center mb-8 chrome-text">FAZER LOGIN</h2>
 
             <form @submit.prevent="login">
-
-                <BaseInput label="Email" type="email" v-model="form.email" placeholder="Digite o seu e-mail" />
-
-                <BaseInput label="Senha" type="password" v-model="form.password" placeholder="Digite a sua senha" />
-
-                <div v-if="errorMessage" class="bg-red-600 bg-opacity-20 text-red-300 p-3 mt-8 rounded-md text-center mb-2">{{ errorMessage }}</div>
+                <BaseInput label="Email" type="email" v-model="form.email" placeholder="Digite seu e-mail" />
+                <BaseInput label="Senha" type="password" v-model="form.password" placeholder="Digite sua senha" />
+                <div v-if="errorMessage"
+                    class="bg-red-600/20 border border-red-500/50 text-red-300 p-4 rounded-lg text-center mb-4 backdrop-blur-sm">
+                    {{ errorMessage }}
+                </div>
 
                 <BaseButton :disabled="isLoading" type="submit" variant="primary">
-                    {{ isLoading ? 'Entrando...' : 'Entrar' }}
+                    {{ isLoading ? 'PROCESSANDO...' : 'ENTRAR' }}
                 </BaseButton>
             </form>
-            <RouterLink class="text-white font-bold" to="/register"><span>Não possui conta?</span></RouterLink>
+
+            <div class="mt-6 text-center">
+                <RouterLink to="/register" class="text-[#00ffff] hover:text-[#ff00ff] font-bold transition-colors">
+                    Não possui conta? Cadastre-se
+                </RouterLink>
+            </div>
         </div>
     </div>
 </template>
@@ -26,33 +34,34 @@ import { authStore } from '@/services/authStore';
 import { authService } from '@/services/apiService';
 import BaseButton from '@/components/BaseButton.vue'
 import BaseInput from '@/components/BaseInput.vue';
+import { notificationStore } from '@/services/notificationStore';
 
-export default{
+export default {
 
     name: "LoginView",
 
-    components:{
+    components: {
         BaseButton,
         BaseInput
     },
 
-    data(){
-        return{
+    data() {
+        return {
             form: {
                 email: '',
                 password: ''
             },
-            
+
             isLoading: false,
             errorMessage: null
         }
     },
 
-    methods:{
-        async login(){
+    methods: {
+        async login() {
 
             this.errorMessage = null,
-            this.isLoading = true
+                this.isLoading = true
 
             try {
                 const response = await authService.login(this.form)
@@ -61,9 +70,12 @@ export default{
 
                 authStore.login(token)
 
-                alert("Login realizado com sucesso! Você será redirecionado...")
+                notificationStore.show("Login realizado com sucesso!", 'success', 5000);
 
-                window.location.href= '/'
+                setTimeout(() => {
+                    this.$router.push('/')
+                }, 1000);
+
 
             } catch (error) {
 

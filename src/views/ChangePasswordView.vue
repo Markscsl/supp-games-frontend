@@ -1,49 +1,52 @@
 <template>
   <div class="container mx-auto p-8 text-white">
-    <h1 class="text-4xl text-center mt-30 font-bold mb-8">Alterar Senha</h1>
+    <h1 class="text-4xl flex justify-center font-bold mb-8">Alterar Senha</h1>
 
-    <div class="max-w-md mx-auto flex justify-center bg-gray-800 p-8 rounded-lg shadow-lg">
+    <div class="w-150 mx-auto flex justify-center bg-purple-0 rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-0 border retro-frame
+ p-8 shadow-lg">
       <form @submit.prevent="submitChangePassword">
-        
-        <div class="mb-4">
-          <label class="block text-white mb-2 font-semibold">Senha Atual</label>
-          <div class="relative">
-            <input 
-              v-model="form.currentPassword"
-              :type="currentPasswordType"
-              placeholder="Digite sua senha atual"
-              class="w-full p-3 pr-10 bg-gray-700 rounded text-white focus:outline-none focus:ring-2 focus:ring-green-500"
-            >
-            <button type="button" @click="toggleVisibility('current')" class="absolute inset-y-0 right-0 px-3 flex items-center text-gray-400 hover:text-white">
-              <svg v-if="currentPasswordType === 'password'" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M10 12a2 2 0 100-4 2 2 0 000 4z" /><path fill-rule="evenodd" d="M.458 10C3.732 4.943 9.522 3 10 3s6.268 1.943 9.542 7c-3.274 5.057-9.064 7-9.542 7S3.732 15.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd" /></svg>
-              <svg v-else xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M10 12a2 2 0 100-4 2 2 0 000 4z" /><path fill-rule="evenodd" d="M.458 10C3.732 4.943 9.522 3 10 3s6.268 1.943 9.542 7c-3.274 5.057-9.064 7-9.542 7S3.732 15.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd" /></svg>
-            </button>
-          </div>
-        </div>
 
-        <div class="mb-4">
-          <label class="block text-white mb-2 font-semibold">Nova Senha</label>
-          <div class="relative">
-            <input 
-              v-model="form.newPassword"
-              :type="newPasswordType"
-              placeholder="••••••••"
-              class="w-full p-3 pr-10 bg-gray-700 rounded text-white focus:outline-none focus:ring-2 focus:ring-green-500"
-            >
-            <button type="button" @click="toggleVisibility('new')" class="absolute inset-y-0 right-0 px-3 flex items-center text-gray-400 hover:text-white">
-               <svg v-if="newPasswordType === 'password'" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M10 12a2 2 0 100-4 2 2 0 000 4z" /><path fill-rule="evenodd" d="M.458 10C3.732 4.943 9.522 3 10 3s6.268 1.943 9.542 7c-3.274 5.057-9.064 7-9.542 7S3.732 15.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd" /></svg>
-               <svg v-else xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M10 12a2 2 0 100-4 2 2 0 000 4z" /><path fill-rule="evenodd" d="M.458 10C3.732 4.943 9.522 3 10 3s6.268 1.943 9.542 7c-3.274 5.057-9.064 7-9.542 7S3.732 15.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd" /></svg>
-            </button>
-          </div>
-        </div>
-        
-        <div v-if="feedbackMessage" :class="isError ? 'text-red-400' : 'text-green-400'" class="text-center mt-4">
+        <BaseInput 
+          label="Senha Atual"
+          :type="showCurrentPassword ? 'text' : 'password'"
+          v-model="form.currentPassword"
+          placeholder="Digite sua senha atual"
+        />
+        <button type="button" @click="showCurrentPassword = !showCurrentPassword" class="text-sm text-gray-400 hover:text-white -mt-2 mb-4">
+          {{ showCurrentPassword ? 'Esconder' : 'Mostrar' }} senha
+        </button>
+
+        <BaseInput 
+          label="Nova Senha"
+          :type="showNewPassword ? 'text' : 'password'"
+          v-model="form.newPassword"
+          placeholder="••••••••"
+        />
+        <button type="button" @click="showNewPassword = !showNewPassword" class="text-sm text-gray-400 hover:text-white -mt-2 mb-4">
+          {{ showNewPassword ? 'Esconder' : 'Mostrar' }} senha
+        </button>
+
+        <BaseInput 
+          label="Confirmar Nova Senha"
+          :type="showNewPassword ? 'text' : 'password'"
+          v-model="form.confirmNewPassword"
+          placeholder="••••••••"
+        />
+
+        <div v-if="feedbackMessage" 
+          :class="isError ? 'bg-red-500/20 text-red-300' : 'bg-green-500/20 text-green-300'"
+          class="p-3 rounded-md text-center mt-4"
+        >
           {{ feedbackMessage }}
         </div>
 
         <BaseButton type="submit" variant="primary" :disabled="isSaving">
           {{ isSaving ? 'Salvando...' : 'Alterar Senha' }}
         </BaseButton>
+
+        <div class="flex mt-8 items-center justify-center">
+            <RouterLink to="/profile">Atualizar perfil</RouterLink>
+        </div>
       </form>
     </div>
   </div>
@@ -62,36 +65,41 @@ export default {
       form: {
         currentPassword: '',
         newPassword: '',
-        // Adicione confirmNewPassword se o seu DTO de back-end o exigir
+        confirmNewPassword: ''
       },
-      currentPasswordType: 'password',
-      newPasswordType: 'password',
+      showCurrentPassword: false, // Controla a visibilidade da senha atual
+      showNewPassword: false,     // Controla a visibilidade da nova senha
       isSaving: false,
       feedbackMessage: null,
       isError: false,
     }
   },
   methods: {
-    toggleVisibility(field) {
-      if (field === 'current') {
-        this.currentPasswordType = this.currentPasswordType === 'password' ? 'text' : 'password';
-      } else if (field === 'new') {
-        this.newPasswordType = this.newPasswordType === 'password' ? 'text' : 'password';
-      }
-    },
     async submitChangePassword() {
       this.isSaving = true;
       this.feedbackMessage = null;
       this.isError = false;
 
+      // Validação extra no front-end para a confirmação de senha
+      if (this.form.newPassword !== this.form.confirmNewPassword) {
+        this.feedbackMessage = "A nova senha e a confirmação não são iguais.";
+        this.isError = true;
+        this.isSaving = false;
+        return; // Para a execução
+      }
+
       try {
         await authService.changePassword(this.form);
         this.feedbackMessage = "Senha alterada com sucesso!";
+
+        // Limpa os campos após o sucesso
         this.form.currentPassword = '';
         this.form.newPassword = '';
+        this.form.confirmNewPassword = '';
+
       } catch (error) {
         console.error("Erro ao alterar senha:", error);
-        this.feedbackMessage = error.response?.data || "Erro ao alterar a senha.";
+        this.feedbackMessage = error.response?.data || "Erro ao alterar a senha. Verifique sua senha atual.";
         this.isError = true;
       } finally {
         this.isSaving = false;

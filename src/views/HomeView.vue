@@ -1,7 +1,7 @@
 <template>
     <div>
         <section v-if="!authStore.isLoggedIn"
-            class="relative h-[70vh] mt-30 flex bg- items-center justify-center text-white overflow-hidden animate-fade-in">
+            class="relative h-[70vh] mt-30 flex items-center justify-center neon-text-pink overflow-hidden animate-fade-in">
 
             <div
                 class="absolute top-1/2 left-1/2 w-[160vw] h-[90vw] min-w-full min-h-full -translate-x-1/2 -translate-y-1/2">
@@ -30,11 +30,10 @@
 
                     
                     <div v-else-if="randomGame" class="text-center animate-fade-in">
-                        <h1 class="text-4xl pb-10 font-bold mb-4">Jogo em Destaque do Dia</h1>
+                        <h1 class="text-4xl pb-10 font-bold neon-text-pink mb-4">Jogo em Destaque do Dia</h1>
 
                         <div
-                            class="flex flex-col md:flex-row bg-transparent border-b-0 border-green-400 bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-0
-    shadow-[0_0_5px_0_rgba(1,130,246,0.8),0_0_15px_5px_rgba(1,3046,0.6)] items-start gap-8 bg-0 p-10 rounded-lg max-w-6xl mx-auto">
+                            class="flex flex-col md:flex-row retro-frame items-start gap-8 bg-0 p-10 rounded-lg max-w-6xl mx-auto">
 
                             <div class="md:w-3/6">
                                 <img :src="randomGame.background_image" alt="Capa do Jogo"
@@ -42,11 +41,11 @@
                             </div>
 
                             <div class="md:w-2/3 text-left">
-                                <h3 class="text-4xl font-bold text-green-400">{{ randomGame.name }}</h3>
+                                <h3 class="text-4xl font-bold neon-text-pink">{{ randomGame.name }}</h3>
                                 <div class="mt-4 flex flex-wrap gap-2">
                                     <p class="mt-4 text-gray-300">{{ randomGame.description_raw }}</p>
                                     <span v-for="p in randomGame.platforms" :key="p.platform.id"
-                                        class="bg-green-500 bg-opacity-20 text-green-white text-sm font-medium px-3 py-1 rounded-full">
+                                        class="bg-opacity-20 bg-purple-700 text-white text-sm font-medium px-3 py-1 rounded-full">
                                         {{ p.platform.name }}
                                     </span>
                                 </div>
@@ -55,9 +54,8 @@
                     </div>
                 </section>
 
-                <div class="m-20 flex flex-col rounded-lg items-center bg-transparent border-b-0 text-5xl font-bold text-white border-green-400 bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-0
-    shadow-[0_0_5px_0_rgba(1,130,246,0.8),0_0_15px_5px_rgba(1,3046,0.6)]">
-                    <h1 class="my-20">Minha Lista de Jogos Favoritos</h1>
+                <div class="m-20 flex flex-col rounded-lg items-center bg-transparent border-b-0 text-5xl font-bold text-white retro-frame">
+                    <h1 class="my-20 neon-text-pink">Minha Lista de Jogos Favoritos</h1>
 
                     <div v-if="isLoading">Carregando sua lista...</div>
 
@@ -67,7 +65,7 @@
                             class="bg-gray-800 rounded-lg overflow-hidden shadow-lg">
                             <img :src="fav.game.imageUrl" :alt="fav.game.name" class="w-full h-48 object-cover">
                             <div class="p-4">
-                                <h3 class="text-xl font-bold text-green-400">{{ fav.game.name }}</h3>
+                                <h3 class="text-xl font-bold text-white">{{ fav.game.name }}</h3>
                             </div>
                         </div>
                     </div>
@@ -79,6 +77,17 @@
                     </div>
                 </div>
 
+                <section class="mt-16">
+                    <h2 class="text-3xl font-bold mb-6">Listas da Comunidade</h2>
+
+                    <div v-if="isLoading" class="text-center">Carregando listas da Comunidade</div>
+
+                    <div v-else-if="publicLists.length > 0" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+                        <PublicUserCard v-for="user in publicLists" :key="user.userId" :user="user"/>
+                    </div>
+
+                    <div v-else>Nenhuma outra lista pública para mostrar no momento</div>
+                </section>
 
 
             </div>
@@ -90,21 +99,21 @@
                 </div>
 
                 <div v-else-if="randomGame" class="text-center animate-fade-in">
-                    <h1 class="text-4xl pt-8 pb-10 font-bold mb-4">Jogo em Destaque do Dia</h1>
+                    <h1 class="text-4xl pt-8 pb-10 neon-text-pink font-bold mb-4">Jogo em Destaque do Dia</h1>
 
                     <div class="max-w-4xl mx-auto mt-8">
 
                         <img :src="randomGame.background_image" alt="Capa do Jogo"
-                            class="w-full h-auto object-cover rounded-lg  border-solid border-0 border-[#5993CD] shadow-[0_0_5px_0_rgba(59,130,246,0.8),0_0_15px_5px_rgba(59,130,246,0.6)] bg-opacity-10 mb-6">
+                            class="w-full h-auto object-cover rounded-lg retro-frame  mb-6">
 
 
 
-                        <div class="mt-40 flex flex-wrap justify-center gap-16">
+                        <div class="mt-30 flex flex-wrap justify-center gap-16">
 
-                            <h2 class="text-5xl text-green-500 font-bold">{{ randomGame.name }}</h2>
+                            <h2 class="text-5xl neon-text-pink font-bold">{{ randomGame.name }}</h2>
                             <p class="mt-4 text-lg font-medium text-gray-300">{{ randomGame.description_raw }}</p>
                             <span v-for="platformContainer in randomGame.platforms" :key="platformContainer.platform.id"
-                                class="bg-green-500 bg-opacity-20 text-white text-sm font-medium px-3 py-1 rounded-full">
+                                class="bg-purple-700 bg-opacity-20 text-white text-sm font-medium px-3 py-1 rounded-full">
                                 {{ platformContainer.platform.name }}
                             </span>
                         </div>
@@ -114,6 +123,18 @@
                 <div v-else class="text-center text-2xl text-red-500 mt-20">
                     Não foi possível carregar o jogo do dia. Tente novamente mais tarde.
                 </div>
+
+                <section class="mt-16">
+                    <h2 class="text-3xl text-center font-bold mb-6">Listas da Comunidade</h2>
+
+                    <div v-if="isLoading" class="text-center">Carregando listas da Comunidade</div>
+
+                    <div v-else-if="publicLists.length > 0" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+                        <PublicUserCard v-for="user in publicLists" :key="user.userId" :user="user"/>
+                    </div>
+
+                    <div v-else>Nenhuma outra lista pública para mostrar no momento</div>
+                </section>
 
             </div>
 
@@ -128,9 +149,13 @@ import { authStore } from '@/services/authStore';
 import { rawgService } from '@/services/apiService.js';
 import { favoriteGamesService } from '@/services/apiService.js';
 import Typewriter from 'typewriter-effect/dist/core';
+import PublicUserCard from '@/components/PublicUserCard.vue';
 
 export default {
     name: 'HomeView',
+    components: { 
+        PublicUserCard
+    },
     data() {
         return {
             authStore: authStore,
