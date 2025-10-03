@@ -9,7 +9,13 @@
 
             <form @submit.prevent="login">
                 <BaseInput label="Email" type="email" v-model="form.email" placeholder="Digite seu e-mail" />
-                <BaseInput label="Senha" type="password" v-model="form.password" placeholder="Digite sua senha" />
+                <BaseInput label="Senha" :type="showPassword ? 'text' : 'password'" v-model="form.password" placeholder="Digite sua senha" />
+
+                <button type="button" @click="showPassword = !showPassword"
+                    class="text-sm text-gray-400 hover:text-white -mt-2 mb-4">
+                    {{ showPassword ? 'Esconder' : 'Mostrar' }} senha
+                </button>
+
                 <div v-if="errorMessage"
                     class="bg-red-600/20 border border-red-500/50 text-red-300 p-4 rounded-lg text-center mb-4 backdrop-blur-sm">
                     {{ errorMessage }}
@@ -53,7 +59,8 @@ export default {
             },
 
             isLoading: false,
-            errorMessage: null
+            errorMessage: null,
+            showPassword: false
         }
     },
 

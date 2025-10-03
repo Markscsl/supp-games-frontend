@@ -79,7 +79,7 @@ export default {
             currentPage: 1,
             canLoadMore: true,
             isAnnotationModalVisible: false,
-            editingFavoriteGame: null
+            editingFavoriteGame: null,
         }
     },
     watch: {
@@ -96,7 +96,7 @@ export default {
             // Cria um novo timer. A busca só acontecerá depois de 500ms.
             this.debounceTimer = setTimeout(() => {
                 this.performSearch(newQuery);
-            }, 200); // 500ms de espera
+            }, 100);
         }
     },
     async mounted() {
@@ -113,17 +113,18 @@ export default {
             this.isLoading = true
 
             try {
-                const response = await favoriteGamesService.getMyList(this.currentPage, 12)
+                const pageSize = 8
+                const response = await favoriteGamesService.getMyList(this.currentPage, pageSize)
 
                 this.myFavoriteGames.push(...response.data)
 
-                if (response.data.length < 12) {
+                if (response.data.length < pageSize) {
                     this.canLoadMore = false
                 }
 
-                this.canLoadMore++
+                this.currentPage++
 
-                this.myFavoriteGames = response.data
+                // this.myFavoriteGames = response.data
 
 
             } catch (error) {
@@ -192,9 +193,7 @@ export default {
 
                 notificationStore.show(`${response.data.name} adicionado com sucesso!`);
 
-                // alert(`'${response.data.name}' foi adicionado à sua lista com sucesso!`)
-
-
+                location.reload()
             } catch (error) {
                 console.error("Erro ao adicionar jogo:", error.rep)
 
@@ -211,7 +210,7 @@ export default {
 
                     await favoriteGamesService.deleteFavorite(gameId)
 
-                    this.myFavoriteGames = this.myFavoriteGames.filter(game => game.id !== gameId);
+                    this.myFavoriteGames = this.myFavoriteGames.filter(fav => fav.game.id !== gameId);
                     alert('Jogo removido!')
 
 

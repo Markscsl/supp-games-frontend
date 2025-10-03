@@ -1,10 +1,10 @@
 <template>
-  <div class="vaporwave-card rounded-lg p-6 h-full flex flex-col hover:border-[#00ffff] transition-all duration-300 card-hover">
-    <h3 class="font-bold text-xl mb-4 border-b border-[#2d1b4e] pb-3 truncate">
+  <div class="vaporwave-card rounded-lg p-4 h-96 flex flex-col hover:border-[#00ffff] transition-all duration-300 card-hover">
+    <h3 class="font-bold text-xl mb-4 border-b border-[#2d1b4e] pb-2 truncate flex-shrink-0">
       Lista de {{ user.userName }}
     </h3>
 
-    <ul v-if="user.favoriteGames.length > 0" class="space-y-3 flex-grow">
+    <ul v-if="user.favoriteGames.length > 0" class="space-y-3 flex-grow overflow-y-auto pr-2">
       <li v-for="game in user.favoriteGames" :key="game.id"
           class="flex items-center bg-[#0f0f2e]/50 p-3 rounded-md border border-[#2d1b4e] hover:border-[#ff00ff]/40 transition-all">
         <img :src="game.imageUrl" :alt="game.name"

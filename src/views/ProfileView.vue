@@ -84,11 +84,13 @@ export default {
       this.isError = false;
 
       try {
-        await userService.updateUser(authStore.user.id, this.form);
+        const response = await userService.updateUser(authStore.user.id, this.form);
         this.feedbackMessage = "Perfil atualizado com sucesso!";
-        // Opcional: Atualizar o nome no authStore se ele mudou
-        if (authStore.user.name !== this.form.name) {
-            authStore.user.name = this.form.name;
+        
+        if(response.data && response.data.token){
+          const newToken = response.data.token
+
+          authStore.login(newToken)
         }
       } catch (error) {
         console.error("Erro ao atualizar perfil:", error);

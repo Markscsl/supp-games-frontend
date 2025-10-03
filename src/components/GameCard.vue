@@ -6,7 +6,7 @@
       <div class="relative h-48 overflow-hidden bg-[#0f0f2e]">
         <img :src="favorite.game.imageUrl" :alt="favorite.game.name"
              class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-        <div class="absolute inset-0 bg-gradient-to-t from-[#0a0a1f] via-transparent to-transparent opacity-60" />
+        <div class="absolute inset-0 bg-gradient-to-t from-[#0a0a1f] via-transparent to-transparent opacity-60"/>
 
         <button @click="$emit('delete-game', favorite.game.id)"
                 class="absolute top-3 right-3 bg-red-600/80 hover:bg-red-500 backdrop-blur-sm text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 border border-red-500/50">

@@ -1,4 +1,3 @@
-import { updateAnimation } from "@tsparticles/engine";
 import axios from "axios";
 
 const apiClient = axios.create({

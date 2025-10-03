@@ -124,8 +124,8 @@
                     Não foi possível carregar o jogo do dia. Tente novamente mais tarde.
                 </div>
 
-                <section class="mt-16">
-                    <h2 class="text-3xl text-center font-bold mb-6">Listas da Comunidade</h2>
+                <section class="mt-16 text-center">
+                    <h2 class="text-3xl font-bold mb-6">Listas da Comunidade</h2>
 
                     <div v-if="isLoading" class="text-center">Carregando listas da Comunidade</div>
 
@@ -179,6 +179,7 @@ export default {
     methods: {
         initVisitorExperience() {
             this.fetchRandomGame();
+            this.fetchPublicLists()
             this.$nextTick(() => {
                 if (this.$refs.typewriter) {
                     new Typewriter(this.$refs.typewriter, {
@@ -195,8 +196,6 @@ export default {
             try {
                 const response = await rawgService.getRandomGame();
 
-                console.log("DADOS RECEBIDOS: ", response.data)
-
                 this.randomGame = response.data;
             } catch (error) {
                 console.error("Erro ao buscar jogo aleatório:", error);
@@ -210,8 +209,6 @@ export default {
 
             try {
                 const response = await userService.getPublicLists(1, 5)
-
-                console.log("Resposta das Listas Públicas: ", response.data)
 
                 this.publicLists = response.data
 

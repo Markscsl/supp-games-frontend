@@ -10,7 +10,13 @@
             <form @submit.prevent="register">
                 <BaseInput label="Nome" type="text" v-model="form.name" placeholder="Digite seu nome" />
                 <BaseInput label="Email" type="email" v-model="form.email" placeholder="Digite seu e-mail" />
-                <BaseInput label="Senha" type="password" v-model="form.password" placeholder="Digite sua senha" />
+                <BaseInput label="Senha" :type="showPassword ? 'text' : 'password'" v-model="form.password" placeholder="Digite sua senha" />
+
+                <button type="button" @click="showPassword = !showPassword"
+                    class="text-sm text-gray-400 hover:text-white -mt-2 mb-4">
+                    {{ showPassword ? 'Esconder' : 'Mostrar' }} senha
+                </button>
+
 
                 <div v-if="errorMessage"
                     class="bg-red-600/20 border border-red-500/50 text-red-300 p-4 rounded-lg text-center mb-4 backdrop-blur-sm">
@@ -53,7 +59,8 @@ export default {
             },
 
             isLoading: false,
-            errorMessage: null,        
+            errorMessage: null,
+            showPassword: false
         }
     },
     methods: {
@@ -63,22 +70,38 @@ export default {
             this.isLoading = true
 
             try {
+                const response = await authService.register(this.form);
 
-                notificationStore.show("Cadastro realizado com sucesso!", 'success', 5000);
+                notificationStore.show("Cadastro realizado com sucesso!", 'success');
 
                 setTimeout(() => {
-                    this.$router.push('/login')
-                }, 2000);
-                
+                    this.$router.push('/login');
+                }, 1500);
 
             } catch (error) {
-                
-                notificationStore.show(this.errorMessage, 'error')
+                if (error.response && error.response.data) {
+
+                    const errors = error.response.data.errors;
+
+                    if (errors && errors.Password) {
+
+                        this.errorMessage = errors.Password[0];
+
+                    } else {
+
+                        this.errorMessage = error.response.data;
+                    }
+
+                } else {
+
+                    this.errorMessage = "Não foi possível conectar ao servidor.";
+                }
+
+                notificationStore.show(this.errorMessage, 'error');
 
             } finally {
 
                 this.isLoading = false;
-
             }
         }
     }
