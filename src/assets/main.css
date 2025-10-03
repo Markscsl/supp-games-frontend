@@ -129,3 +129,36 @@
   animation: pan-grid 60s linear infinite;
 }
 
+:root {
+  --neon-pink: #ff00ff; /* Ex: Roxo Magenta */
+  --neon-cyan: #00ffff; /* Ex: Ciano elétrico */
+  --neon-purple: #8a2be2; /* Ex: Azul violeta */
+}
+
+
+@keyframes rotating-border-gradient {
+  0% {
+    border-image-source: linear-gradient(0deg, var(--neon-pink), var(--neon-cyan));
+    transform: rotate(0deg);
+  }
+  25% {
+    border-image-source: linear-gradient(90deg, var(--neon-pink), var(--neon-cyan));
+  }
+  50% {
+    border-image-source: linear-gradient(180deg, var(--neon-pink), var(--neon-cyan));
+    transform: rotate(180deg);
+  }
+  75% {
+    border-image-source: linear-gradient(270deg, var(--neon-pink), var(--neon-cyan));
+  }
+  100% {
+    border-image-source: linear-gradient(360deg, var(--neon-pink), var(--neon-cyan));
+    transform: rotate(360deg);
+  }
+}
+
+.animated-game-card-border {
+  border: 2px solid transparent; /* Cor inicial transparente, a imagem da borda que faz o trabalho */
+  border-image-slice: 1; /* Garante que a imagem da borda preencha a borda toda */
+  animation: rotating-border-gradient 4s linear infinite; /* Aplica a animação */
+}

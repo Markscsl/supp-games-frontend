@@ -1,5 +1,5 @@
 <template>
-  <div class="card-hover  group">
+  <div class="card-hover group">
     <div class="relative vaporwave-card rounded-lg overflow-hidden hover:border-[#ff00ff] transition-all duration-300">
       <div class="absolute inset-0 bg-gradient-to-br from-[#ff00ff]/0 to-[#00ffff]/0 group-hover:from-[#ff00ff]/10 group-hover:to-[#00ffff]/10 transition-all duration-300" />
 

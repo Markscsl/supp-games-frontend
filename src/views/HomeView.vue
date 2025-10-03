@@ -54,15 +54,15 @@
                     </div>
                 </section>
 
-                <div class="m-20 flex flex-col rounded-lg items-center bg-transparent border-b-0 text-5xl font-bold text-white retro-frame">
+                <div class="m-20 flex flex-col animate-fade-in rounded-lg items-center bg-transparent border-b-0 text-5xl font-bold text-white retro-frame">
                     <h1 class="my-20 neon-text-pink">Minha Lista de Jogos Favoritos</h1>
-
+                    
                     <div v-if="isLoading">Carregando sua lista...</div>
 
                     <div v-else-if="myFavoriteGames.length > 0"
-                        class="grid grid-cols-1 mx-8 md:grid-cols-2 lg:grid-cols-3  pb-20 gap-8">
-                        <div clas v-for="fav in myFavoriteGames" :key="fav.id"
-                            class="bg-gray-800 rounded-lg overflow-hidden shadow-lg">
+                        class="grid  grid-cols-1 mx-8 md:grid-cols-2 lg:grid-cols-3  pb-20 gap-8">
+                        <div v-for="fav in myFavoriteGames" :key="fav.id"
+                            class="bg-gray-800 relative vaporwave-card rounded-lg overflow-hidden hover:border-[#ff00ff] retro-frame transition-all duration-300 card-hover shadow-lg">
                             <img :src="fav.game.imageUrl" :alt="fav.game.name" class="w-full h-48 object-cover">
                             <div class="p-4">
                                 <h3 class="text-xl font-bold text-white">{{ fav.game.name }}</h3>
@@ -104,7 +104,7 @@
                     <div class="max-w-4xl mx-auto mt-8">
 
                         <img :src="randomGame.background_image" alt="Capa do Jogo"
-                            class="w-full h-auto object-cover rounded-lg retro-frame  mb-6">
+                            class="w-full h-auto object-cover rounded-lg retro-frame mb-6">
 
 
 
@@ -253,6 +253,22 @@ export default {
     to {
         opacity: 1;
         transform: translateY(0);
+    }
+}
+
+.animate-border-spin {
+    animation: borderSpin 4s linear infinite;
+}
+
+@keyframes borderSpin {
+    from {
+        opacity: 0%;
+        transform: rotate(0deg);
+    }
+
+    to {
+        opacity: 100%;
+        transform: rotate(360deg);
     }
 }
 </style>
