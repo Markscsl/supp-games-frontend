@@ -33,7 +33,7 @@
         </BaseButton>
 
         <div class="flex mt-8 items-center justify-center">
-            <RouterLink to="/change-password">Atualizar senha</RouterLink>
+            <RouterLink class="text-white hover:text-cyan-300 transition-colors" to="/change-password">Atualizar senha</RouterLink>
         </div>
       </form>
     </div>

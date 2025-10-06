@@ -4,7 +4,7 @@
       Lista de {{ user.userName }}
     </h3>
 
-    <ul v-if="user.favoriteGames.length > 0" class="space-y-3 flex-grow overflow-y-auto pr-2">
+    <ul v-if="user.favoriteGames.length > 0" class="space-y-3 flex-grow element-com-scroll overflow-y-auto pr-2">
       <li v-for="game in user.favoriteGames" :key="game.id"
           class="flex items-center bg-[#0f0f2e]/50 p-3 rounded-md border border-[#2d1b4e] hover:border-[#ff00ff]/40 transition-all">
         <img :src="game.imageUrl" :alt="game.name"

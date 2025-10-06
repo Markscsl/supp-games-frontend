@@ -21,9 +21,9 @@
           </RouterLink>
           <RouterLink to="/profile" class="text-gray-300 hover:text-[#00ffff] transition-colors font-medium uppercase">Perfil</RouterLink>
           <span class="text-[#2d1b4e]">|</span>
-          <span v-if="user" class="text-gray-400">Olá, <span class="neon-text-pink">{{ user.name }}</span></span>
+          <span v-if="user" class="text-white">Olá, <RouterLink to="/profile" class="font-bold neon-text-pink">{{ user.name }}</RouterLink></span>
           <button @click="logout"
-                  class="bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-600 px-4 py-2 rounded-lg text-sm font-bold text-white transition-all duration-300 hover:scale-105 border border-red-500/30">
+                  class="neon-button-pink px-4 py-2 rounded-lg text-sm font-bold text-white transition-all duration-300 hover:scale-105 border border-red-500/30">
             Sair
           </button>
         </div>

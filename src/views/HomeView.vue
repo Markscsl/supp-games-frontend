@@ -55,14 +55,14 @@
                 </section>
 
                 <div class="m-20 flex flex-col animate-fade-in rounded-lg items-center bg-transparent border-b-0 text-5xl font-bold text-white retro-frame">
-                    <h1 class="my-20 neon-text-pink">Minha Lista de Jogos Favoritos</h1>
+                    <h1 class="my-20">Minha Lista de <span class="neon-text-purple">Jogos Favoritos</span></h1>
                     
                     <div v-if="isLoading">Carregando sua lista...</div>
 
                     <div v-else-if="myFavoriteGames.length > 0"
                         class="grid  grid-cols-1 mx-8 md:grid-cols-2 lg:grid-cols-3  pb-20 gap-8">
                         <div v-for="fav in myFavoriteGames" :key="fav.id"
-                            class="bg-gray-800 relative vaporwave-card rounded-lg overflow-hidden hover:border-[#ff00ff] retro-frame transition-all duration-300 card-hover shadow-lg">
+                            class="relative vaporwave-card rounded-lg overflow-hidden hover:border-[#ff00ff] retro-frame transition-all duration-300 card-hover shadow-lg">
                             <img :src="fav.game.imageUrl" :alt="fav.game.name" class="w-full h-48 object-cover">
                             <div class="p-4">
                                 <h3 class="text-xl font-bold text-white">{{ fav.game.name }}</h3>

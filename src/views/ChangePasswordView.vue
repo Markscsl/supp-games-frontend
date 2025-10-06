@@ -45,7 +45,7 @@
         </BaseButton>
 
         <div class="flex mt-8 items-center justify-center">
-            <RouterLink to="/profile">Atualizar perfil</RouterLink>
+            <RouterLink class="text-white hover:text-cyan-300 transition-colors" to="/profile">Atualizar perfil</RouterLink>
         </div>
       </form>
     </div>

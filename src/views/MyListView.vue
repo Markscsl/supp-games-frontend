@@ -47,6 +47,14 @@
             </button>
         </div>
 
+        <ConfirmModal :show="isConfirmModalVisible" 
+        title="Confirmar exclusão" 
+        message="Tem certeza que quer remover este jogo da sua lista?" 
+        confirmButton="Sim, Remover" 
+        cancelButton="Cancelar" 
+        @confirm="confirmDelete" 
+        @cancel="closeConfirmModal"/>
+
         <EditAnnotationModal :show="isAnnotationModalVisible"
             :existing-annotations="editingFavoriteGame ? editingFavoriteGame.annotations : []"
             @close="closeAnnotationsModal" @save="handleSaveAnnotation" />
@@ -54,6 +62,7 @@
 </template>
 
 <script>
+import ConfirmModal from '@/components/ConfirmModal.vue';
 import EditAnnotationModal from '@/components/EditAnnotationModal.vue';
 import { annotationService } from '@/services/apiService.js';
 import { rawgService } from '@/services/apiService.js';
@@ -65,7 +74,8 @@ export default {
     name: 'MyListView',
     components: {
         GameCard,
-        EditAnnotationModal
+        EditAnnotationModal,
+        ConfirmModal
     },
     data() {
         return {
@@ -80,6 +90,8 @@ export default {
             canLoadMore: true,
             isAnnotationModalVisible: false,
             editingFavoriteGame: null,
+            gameIdToDelete: null,
+            isConfirmModalVisible: false
         }
     },
     watch: {
@@ -182,6 +194,7 @@ export default {
                 console.error("Erro na busca:", error);
             }
         },
+
         async addGame(gameSlug) {
             try {
                 const response = await favoriteGamesService.addFavorite(gameSlug)
@@ -204,21 +217,45 @@ export default {
                 }
             }
         },
+
+        openConfirmModal(gameId){
+            this.gameIdToDelete = gameId
+            this.isConfirmModalVisible = true
+        },
+
+        closeConfirmModal(){
+            this.isConfirmModalVisible = false
+        },
+
         async handleDeleteGame(gameId) {
-            if (confirm('Tem certeza que quer remover este jogo da sua lista?')) {
-                try {
+            this.gameIdToDelete = gameId
+            this.isConfirmModalVisible = true
+        },
 
-                    await favoriteGamesService.deleteFavorite(gameId)
-
-                    this.myFavoriteGames = this.myFavoriteGames.filter(fav => fav.game.id !== gameId);
-                    alert('Jogo removido!')
-
-
-                } catch (error) {
-                    console.error("Erro ao remover jogo: ", error)
-                    alert("Não foi possível remover o jogo. Tente novamente.")
-                }
+        async confirmDelete(){
+            if(!this.gameIdToDelete){
+                return
             }
+
+            try {
+                await favoriteGamesService.deleteFavorite(this.gameIdToDelete)
+
+                this.myFavoriteGames = this.myFavoriteGames.filter(fav => fav.game.id !== this.gameIdToDelete)
+
+                notificationStore.show('Jogo removido com sucesso!')
+
+            } catch (error) {
+                console.error("Erro ao remover jogo:", error)
+                notificationStore.show('Não foi possível remover o jogo', 'error')
+
+            } finally {
+                this.closeConfirmModal()
+            }
+        },
+
+        async closeModal(){
+            this.isConfirmModalVisible = false
+            this.gameIdToDelete = null
         }
     }
 }
