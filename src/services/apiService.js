@@ -69,6 +69,6 @@ export const annotationService = {
         return apiClient.post('/Annotations', annotationData)
     },
     update(annotationId, annotationData){
-        return apiClient.post(`/Annotations/${annotationId}`, annotationData)
+        return apiClient.put(`/Annotations/${annotationId}`, annotationData)
     }
 }

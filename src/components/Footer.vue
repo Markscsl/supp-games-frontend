@@ -4,8 +4,8 @@
 
     <div class="max-w-7xl mx-auto px-8 py-8">
       <div class="flex flex-col md:flex-row justify-center items-center gap-4">
-        <p class="text-gray-500 text-sm font-bold">
-          &copy; WEBSUPPLY 2025 - <span class="neon-text-pink">SUPPGAMES</span>
+        <p class="text-white text-sm font-bold">
+          &copy; Marcus Vinicius 2025 - <span class="neon-text-purple">SUPPGAMES</span>
         </p>
         </div>
       </div>
